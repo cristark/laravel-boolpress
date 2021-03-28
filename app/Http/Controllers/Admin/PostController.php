@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Post;
+use App\Tag;
 
 class PostController extends Controller
 {
@@ -31,7 +32,11 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.post.create');
+        $tags = Tag::all();
+
+        $data = ['tags' => $tags];
+        
+        return view('admin.post.create', $data);
     }
 
     /**
@@ -69,6 +74,10 @@ class PostController extends Controller
         // salvataggio e invio a db
         $newPost->save();
 
+        if (array_key_exists('tags', $data)) {
+            $newPost->tags()->sync($data['tags']);
+        }
+
         // redirect
         return redirect()->route('post.index');
     }
@@ -102,9 +111,12 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         if($post) {
+
+            $tags = Tag::all();
             
             $data = [
-                'post' => $post
+                'post' => $post,
+                'tags' => $tags
             ];
 
             return view('admin.post.edit', $data);
@@ -132,6 +144,10 @@ class PostController extends Controller
         // $post->slug = Str::slug($data['title']);
         $post->update($data);
 
+        if (array_key_exists('tags', $data)) {
+            $post->tags()->sync($data['tags']);
+        }
+
         return redirect()->route('post.show', $post);
     }
 
@@ -143,6 +159,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $post->tags()->sync([]);
         $post->delete();
 
         return redirect()->route('post.index')->with('status', 'Articolo eliminato');

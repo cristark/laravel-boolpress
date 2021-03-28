@@ -17,7 +17,7 @@
 
 
         <form method="post" action="{{route('post.update', $post->id)}}">
-            {{-- @csrf --}}
+            @csrf
             @method('PUT')
             <div class="form-group">
                 <label for="InputTitle">Titolo</label>
@@ -29,11 +29,21 @@
                 <textarea class="form-control" id="InputContent" placeholder="Inserisci il testo qui" cols="30" rows="10" name="content">{{$post->content}}</textarea>
             </div>
 
+            <div class="check_container d-flex flex-wrap mb-4">
+                @foreach ($tags as $tag)
+                    <div class="form-check mr-4">
+                        <input class="form-check-input" type="checkbox" value="{{$tag->id}}" id="defaultCheck" name="tags[]" {{$post->tags->contains($tag->id) ? 'checked' : ''}}>
+                        <label class="form-check-label" for="defaultCheck">{{$tag->name}}</label>
+                    </div>
+                @endforeach
+            </div>
+
             <div class="form-group form-check">
                 <input type="checkbox" class="form-check-input" id="Check1" required>
                 <label class="form-check-label" for="Check1">Spuntando confermi che il testo inserito è conforme al regolamento del blog</label>
             </div>
             <button type="submit" class="btn btn-primary">Modifica</button>
         </form>
+        <a class="d-flex justify-content-end" href="{{route('post.index')}}"><button type="submit" class="btn btn-warning">Annulla</button></a>
     </div>
 @endsection
