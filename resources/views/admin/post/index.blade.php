@@ -5,7 +5,7 @@
 <div class="container">
 
     {{-- Pulsante creazione Nuovo Post --}}
-    <a href="{{route('post.create')}}"><button type="button" class="btn btn-primary">Crea un nuovo Post</button></a>
+    <a href="{{route('post.create')}}"><button type="button" class="btn btn-primary mb-3">Crea un nuovo Post</button></a>
 
     {{-- Notifica eliminazione post esistente --}}
     @if (session('status'))
@@ -43,7 +43,7 @@
                         <form method="post" action="{{route('post.destroy', ['post' => $post->id])}}">
                             @csrf
                             @method('DELETE')
-                                <button type="submit" class="btn btn-danger" href="">Elimina</button>
+                                <button type="submit" class="btn btn-danger">Elimina</button>
                         </form>
                     </td>
                 </tr>
