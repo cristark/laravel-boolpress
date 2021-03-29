@@ -11,6 +11,7 @@
                 <ul class="navbar-nav mr-auto">
                     <a class="nav-link" href="{{url('/')}}">Home</a>
                     <a class="nav-link" href="{{route('guest.posts.index')}}">Articoli</a>
+                    <a class="nav-link" href="{{route('guest.contatti')}}">Contatti</a>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
