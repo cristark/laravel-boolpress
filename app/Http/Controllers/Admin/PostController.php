@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 use App\Post;
 use App\Tag;
 
@@ -67,6 +68,11 @@ class PostController extends Controller
 
         // Creo lo slug dal title del form
         $newPost->slug = Str::slug($data['title']);
+        
+        // Costruzione percorso immagine
+        $coverPath = Storage::put('img', $data['cover']);
+        // Associo percorso a campo nella tabella
+        $data['cover'] = $coverPath;
 
         // scorciatoia inserimento campi, necessita l'inserimento del fillable in Model
         $newPost->fill($data);
@@ -136,12 +142,23 @@ class PostController extends Controller
     {
         $data = $request->all();
 
-        $request->validate([
-            'title' => 'required|unique:posts|max:80',
-            'content' => 'required'
-        ]);
-        
-        // $post->slug = Str::slug($data['title']);
+        // $request->validate([
+        //     'title' => 'required|unique:posts|max:80',
+        //     'content' => 'required'
+        // ]);
+
+        if (array_key_exists('image', $data)) {
+            // Sostituzione immagine
+            $coverPath = Storage::put('img', $data['cover']);
+            $data['cover'] = $coverPath;
+        }
+
+        if ($data['title'] != $post->title) {
+            // Aggiorno slug se il titolo cambia
+            $slug = Str::slug($data['title']);
+            $data['slug'] = $slug;
+        }
+
         $post->update($data);
 
         if (array_key_exists('tags', $data)) {

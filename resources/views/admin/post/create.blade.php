@@ -16,7 +16,7 @@
         @endif
 
         {{-- Form inserimento dati --}}
-        <form method="post" action="{{route('post.store')}}">
+        <form method="post" action="{{route('post.store')}}" enctype="multipart/form-data">
             @csrf
             @method('POST')
             <div class="form-group">
@@ -27,6 +27,11 @@
             <div class="form-group">
                 <label for="InputContent">Testo</label>
                 <textarea class="form-control" id="InputContent" placeholder="Inserisci il testo qui" cols="30" rows="10" name="content">{{old('content')}}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="InputFile">Carica un'immagine</label>
+                <input type="file" class="form-control-file" id="InputFile" name="cover">
             </div>
             
             <div class="check_container d-flex flex-wrap mb-4">

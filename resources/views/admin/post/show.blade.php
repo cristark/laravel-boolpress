@@ -10,6 +10,7 @@
                     <th scope="col">Autore</th>
                     <th scope="col">Titolo</th>
                     <th scope="col">Contenuto</th>
+                    <th scope="col">Immagine</th>
                     <th scope="col">Data Creazione</th>
                     <th scope="col">Data Modifica</th>
                 </tr>
@@ -20,6 +21,7 @@
                     <td>{{$post->user->name}}</td>
                     <td>{{$post->title}}</td>
                     <td>{{$post->content}}</td>
+                    <td><img style="height: 50px;" src="{{asset('storage/' . $post->cover)}}" alt="{{$post->title}}"></td>
                     <td>{{$post->created_at}}</td>
                     <td>{{$post->updated_at}}</td>
                 </tr>

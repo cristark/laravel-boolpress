@@ -16,12 +16,25 @@
         @endif
 
 
-        <form method="post" action="{{route('post.update', $post->id)}}">
+        <form method="post" action="{{route('post.update', $post->id)}}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="form-group">
                 <label for="InputTitle">Titolo</label>
                 <input type="text" class="form-control" id="InputTitle" placeholder="Inserisci il titolo" name="title" value="{{$post->title}}">
+            </div>
+
+            @if ($post->cover)
+                <p>Immagine inserita:</p>
+                <img class="d-block" style="height: 150px;" src="{{asset('storage/'.$post->cover)}}" alt="{{$post->title}}">
+                <label for="InputFile">Sostituisci l'immagine</label>    
+            @else
+                <p class="alert alert-dark">Immagine non inserita</p>
+                <label for="InputFile">Carica un'immagine</label>
+            @endif
+            
+            <div class="form-group">
+                <input type="file" class="form-control-file" id="InputFile" name="cover">
             </div>
 
             <div class="form-group">
